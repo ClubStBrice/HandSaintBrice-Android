@@ -14,37 +14,35 @@ public class Joueur {
         this.idEquipe = idEquipe;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public String getNom(){
+    public String getNom() {
         return nom;
     }
 
-    public String getPrenom(){
+    public String getPrenom() {
         return prenom;
     }
 
-    public int getIdEquipe(){
+    public int getIdEquipe() {
         return idEquipe;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setNom(String nom){
+    public void setNom(String nom) {
         this.nom = nom;
     }
 
-    public void setPrenom(String prenom){
+    public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
-    public void setIdEquipe(int idEquipe){
+    public void setIdEquipe(int idEquipe) {
         this.idEquipe = idEquipe;
     }
-
-
 }
