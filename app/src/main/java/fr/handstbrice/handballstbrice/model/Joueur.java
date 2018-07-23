@@ -5,11 +5,13 @@ public class Joueur {
     private int id;
     private String nom;
     private String prenom;
+    private int idEquipe;
 
-    public Joueur(int id, String nom, String prenom){
+    public Joueur(int id, String nom, String prenom, int idEquipe){
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
+        this.idEquipe = idEquipe;
     }
 
     public int getId(){
@@ -24,6 +26,10 @@ public class Joueur {
         return prenom;
     }
 
+    public int getIdEquipe(){
+        return idEquipe;
+    }
+
     public void setId(int id){
         this.id = id;
     }
@@ -36,7 +42,9 @@ public class Joueur {
         this.prenom = prenom;
     }
 
-
+    public void setIdEquipe(int idEquipe){
+        this.idEquipe = idEquipe;
+    }
 
 
 }
