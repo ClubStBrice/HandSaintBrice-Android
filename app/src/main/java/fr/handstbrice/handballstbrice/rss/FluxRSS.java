@@ -1,12 +1,45 @@
 package fr.handstbrice.handballstbrice.rss;
 
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.widget.TextView;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import java.util.List;
 
 import fr.handstbrice.handballstbrice.model.Match;
+import fr.handstbrice.handballstbrice.model.Partenaire;
+
+// http://dev-handstbrice.fr/api-stbrice/?action=get_list_partenaires
+// http://dev-handstbrice.fr/api-stbrice/?action=get_list_equipes
+// http://dev-handstbrice.fr/api-stbrice/?action=get_last_match
+// http://dev-handstbrice.fr/api-stbrice/?action=get_next_match
+// http://dev-handstbrice.fr/page-article/feed
 
 public class FluxRSS {
+    public static AsyncTask<String,Void, List<Partenaire>> scanListPartenaires() {
+    }
+
+    public static AsyncTask<String,Void, List<Equipe>> scanListEquipes() {
+    }
+
+    public static AsyncTask<String,Void, List<Article>> scanArticles() {
+    }
+
+    public static AsyncTask<String,Void, Match> scanNextMatch() {
+    }
+
     public static AsyncTask<String,Void, Match> scanLastMatch()
     {
         return new AsyncTask<String, Void, Match>()
@@ -16,7 +49,7 @@ public class FluxRSS {
             protected Match doInBackground(String... urls) {
                 try {
                     //à partir de cette URL
-                    URL rssUrl = new URL("https://www.lemonde.fr/culture/rss_full.xml");
+                    URL rssUrl = new URL("http://dev-handstbrice.fr/api-stbrice/?action=get_last_match");
                     //on construit un parseur (parcoureur) de contenu XML
                     SAXParserFactory factory = SAXParserFactory.newInstance();
                     SAXParser saxParser = factory.newSAXParser();
@@ -52,7 +85,6 @@ public class FluxRSS {
                 // du parcour de notre flux RSS. Le HTML lui même a été généré dans la classe
                 // RSSHandler
                 textViewRSS.setText(Html.fromHtml(feed));
-
             }
         };
     }
