@@ -8,7 +8,7 @@
     android:layout_marginRight="10dp"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ActiviteDetails"
+    tools:context=".PartenaireDetailsActivite"
     tools:layout_editor_absoluteY="81dp">
 
     <TextView

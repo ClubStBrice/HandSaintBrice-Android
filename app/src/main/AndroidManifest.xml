@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".PartenairesActivite" />
-        <activity android:name=".ActiviteDetails" />
+        <activity android:name=".PartenaireDetailsActivite" />
         <activity android:name=".AccueilActivite" />
 
         <service

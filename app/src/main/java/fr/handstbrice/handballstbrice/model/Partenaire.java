@@ -2,7 +2,9 @@ package fr.handstbrice.handballstbrice.model;
 
 import android.net.Uri;
 
-public class Partenaire {
+import java.io.Serializable;
+
+public class Partenaire implements Serializable{
 
     private int id;
     private String nom;
