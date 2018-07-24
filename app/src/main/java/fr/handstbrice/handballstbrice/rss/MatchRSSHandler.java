@@ -10,18 +10,18 @@ import java.util.List;
 
 import fr.handstbrice.handballstbrice.model.Match;
 
-public class MatchRSSHandler extends DefaultHandler {
+public class MatchRSSHandler extends DefaultHandler
+{
     private int id; String equipeLocale; String equipeExterieure; int scoreEquipeLocale; int scoreEquipeExterieure; String date; String heure;
     private boolean saisieId=false, saisieEquipeLocale=false, saisieEquipeExterieure=false, saisieScoreEquipeLocale=false, saisieScoreEquipeExterieure=false, saisieDate=false, saisieHeure=false;
     private boolean saisieNouveauMatch=false;
-    private List<Match> matchList=new ArrayList<>();
+    private List<Match> matchsList=new ArrayList<>();
 
-    /*
-    Cette fonction est exécuté au moment de la lecture de chaque balise XML
-     */
+    /**
+    * Cette fonction est exécuté au moment de la lecture de chaque balise XML
+    */
     @Override
-    public void startElement(String uri, String localName, String qName,
-                             Attributes attrs) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
         switch (localName.toLowerCase())
         {
             case "id":
@@ -50,7 +50,6 @@ public class MatchRSSHandler extends DefaultHandler {
                 saisieNouveauMatch=true;
                 break;
         }
-
     }
 
     private void validerSaisieSiNecessaire()
@@ -58,7 +57,7 @@ public class MatchRSSHandler extends DefaultHandler {
         if (saisieNouveauMatch)
         {
             try {
-                matchList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure));
+                matchsList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -67,12 +66,7 @@ public class MatchRSSHandler extends DefaultHandler {
         }
     }
 
-    /*@Override
-    public void endElement(String namespaceURI, String localName,
-                           String qName) throws SAXException {
-    }*/
-
-    /*
+    /**
     * Cette fonction est executée pour lire le contenu d'une balise.
     * Pour savoir qu'elle balise nous sommes en train de lire, se référer à la fonction 'startElement'
     */
@@ -103,7 +97,6 @@ public class MatchRSSHandler extends DefaultHandler {
             heure = cdata;
             saisieHeure = false;
         }
-
     }
 
     /**
@@ -112,6 +105,6 @@ public class MatchRSSHandler extends DefaultHandler {
     public List<Match> getRssResult()
     {
         validerSaisieSiNecessaire();
-        return matchList;
+        return matchsList;
     }
 }

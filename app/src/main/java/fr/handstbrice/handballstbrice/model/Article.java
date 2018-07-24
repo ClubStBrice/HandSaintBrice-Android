@@ -9,8 +9,9 @@ public class Article {
     private String titre;
     private String texte;
     private String imgUrl;
+    private String url;
 
-    public Article (int id, Date date, String titre, String texte, String imgUrl){
+    public Article (int id, Date date, String titre, String texte, String imgUrl, String url){
         assert titre != null;
         assert texte != null;
 
@@ -19,7 +20,7 @@ public class Article {
         this.titre = titre;
         this.texte = texte;
         this.imgUrl = imgUrl;
-
+        this.url = url;
     }
 
     public int getId() {
@@ -42,6 +43,7 @@ public class Article {
         return imgUrl;
     }
 
-
-
+    public String getUrl() {
+        return url;
+    }
 }
