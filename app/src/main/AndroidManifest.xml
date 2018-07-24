@@ -9,13 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PartenairesActivite"></activity>
-        <activity android:name=".ActiviteDetails"></activity>
-        <activity android:name=".AccueilActivite"></activity>
+        <activity android:name=".PartenairesActivite" />
+        <activity android:name=".ActiviteDetails" />
+        <activity android:name=".AccueilActivite" />
+
         <service
             android:name=".MatchCheckerService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".DernierMatchActivite"></activity>
     </application>
 
 </manifest>
