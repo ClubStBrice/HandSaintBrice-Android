@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Equipe {
-
+public class Equipe
+{
     private int id;
     private String nom;
     private Uri srcImg;
@@ -34,8 +34,6 @@ public class Equipe {
     public String getNom() {
         return nom;
     }
-
-
 
     public List<Joueur> getJoueurs() {
         return joueurs;

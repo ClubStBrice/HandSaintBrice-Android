@@ -12,7 +12,7 @@ import fr.handstbrice.handballstbrice.model.Match;
 
 public class MatchRSSHandler extends DefaultHandler
 {
-    private int id; String equipeLocale; String equipeExterieure; int scoreEquipeLocale; int scoreEquipeExterieure; String date; String heure;
+    private int id; private String equipeLocale; private String equipeExterieure; private int scoreEquipeLocale; private int scoreEquipeExterieure; private String date; private String heure;
     private boolean saisieId=false, saisieEquipeLocale=false, saisieEquipeExterieure=false, saisieScoreEquipeLocale=false, saisieScoreEquipeExterieure=false, saisieDate=false, saisieHeure=false;
     private boolean saisieNouveauMatch=false;
     private List<Match> matchsList=new ArrayList<>();

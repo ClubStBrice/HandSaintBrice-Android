@@ -11,7 +11,7 @@ import fr.handstbrice.handballstbrice.model.Article;
 
 public class ArticleRSSHandler extends DefaultHandler
 {
-    private int id = -1; String date; String titre; String texte; String imgUrl = null; String url;
+    private int id = -1; private String date; private String titre; private String texte; private String imgUrl = null; private String url;
     private boolean saisieId=false, saisieDate=false, saisieTitre=false, saisieTexte=false, saisieImgUrl=false, saisieUrl=false;
     private boolean saisieNouveauArticle=false;
     private List<Article> articlesList=new ArrayList<>();
