@@ -1,11 +1,13 @@
 package fr.handstbrice.handballstbrice.model;
 
+import android.net.Uri;
+
 public class Partenaire {
 
     private int id;
     private String nom;
     private String url;
-    private String urlImg;
+    private Uri urlImg;
     private String offre;
 
 
@@ -13,7 +15,7 @@ public class Partenaire {
         this.id = id;
         this.nom = nom;
         this.url = url;
-        this.urlImg = urlImg;
+        this.urlImg = Uri.parse(urlImg);
         this.offre = offre;
     }
 
@@ -29,7 +31,7 @@ public class Partenaire {
         return url;
     }
 
-    public String getUrlImg() {
+    public Uri getUrlImg() {
         return urlImg;
     }
 
