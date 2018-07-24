@@ -35,7 +35,6 @@
                 android:src="@mipmap/logo_club_round"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp"
-                tools:id="equipe_gauche_dernier"
                 tools:layout_editor_absoluteX="94dp"
                 tools:layout_editor_absoluteY="214dp" />
 
@@ -45,8 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="St Brice Courcelles"
-                android:textAlignment="center"
-                tools:id="nom_equipe_gauche_dernier" />
+                android:textAlignment="center"/>
 
         </LinearLayout>
 
@@ -76,8 +74,7 @@
                     android:layout_weight="1"
                     android:text="12"
                     android:textAlignment="center"
-                    android:textSize="24sp"
-                    tools:id="score_gauche_dernier" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/separation_dernier"
@@ -115,7 +112,7 @@
                 android:src="@mipmap/logo_club_round"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp"
-                tools:id="equipe_droite_dernier"
+
                 tools:layout_editor_absoluteX="207dp"
                 tools:layout_editor_absoluteY="214dp" />
 
@@ -124,8 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Paris"
-                android:textAlignment="center"
-                tools:id="nom_equipe_droite_dernier" />
+                android:textAlignment="center" />
         </LinearLayout>
 
 
