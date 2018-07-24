@@ -4,13 +4,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.handstbrice.handballstbrice.model.Match;
+
 public class MatchRSSHandler extends DefaultHandler {
-    private String rssResult="";
-    private String title=null;
-    private String link=null;
-    private boolean item=false;
-    private boolean titleR=false;
-    private boolean linkR=false;
+    private int id; String equipeLocale; String equipeExterieure; int scoreEquipeLocale; int scoreEquipeExterieure; String date; String heure;
+    private boolean saisieId=false, saisieEquipeLocale=false, saisieEquipeExterieure=false, saisieScoreEquipeLocale=false, saisieScoreEquipeExterieure=false, saisieDate=false, saisieHeure=false;
+    private boolean saisieNouveauMatch=false;
+    private List<Match> matchList=new ArrayList<>();
 
     /*
     Cette fonction est exécuté au moment de la lecture de chaque balise XML
@@ -18,12 +22,49 @@ public class MatchRSSHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName,
                              Attributes attrs) throws SAXException {
-        if (localName.equals("title"))//s'il s'agit de la base 'title'
-            titleR=true;
+        switch (localName.toLowerCase())
+        {
+            case "id":
+                saisieId=true;
+                break;
+            case "team_rec":
+                saisieEquipeLocale=true;
+                break;
+            case "team_vis":
+                saisieEquipeExterieure=true;
+                break;
+            case "res_rec":
+                saisieScoreEquipeLocale=true;
+                break;
+            case "res_vis":
+                saisieScoreEquipeExterieure=true;
+                break;
+            case "date_match":
+                saisieDate=true;
+                break;
+            case "heure_match":
+                saisieHeure=true;
+                break;
+            case "match":
+                validerSaisieSiNecessaire();
+                saisieNouveauMatch=true;
+                break;
+        }
 
-        if (localName.equals("link"))//s'il s'agit de la balise 'link'
-            linkR=true;
+    }
 
+    private void validerSaisieSiNecessaire()
+    {
+        if (saisieNouveauMatch)
+        {
+            try {
+                matchList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            saisieNouveauMatch=false;
+        }
     }
 
     /*@Override
@@ -32,40 +73,45 @@ public class MatchRSSHandler extends DefaultHandler {
     }*/
 
     /*
-    Cette fonction est executée pour lire le contenu d'une balise.
-    Pour savoir qu'elle balise nous sommes en train de lire, se référer à la fonction 'startElement'
-     */
+    * Cette fonction est executée pour lire le contenu d'une balise.
+    * Pour savoir qu'elle balise nous sommes en train de lire, se référer à la fonction 'startElement'
+    */
     @Override
     public void characters(char[] ch, int start, int length)
             throws SAXException {
         //on transforme le tableau de caractères 'ch' en une chaine de caractères de type String
         String cdata = new String(ch, start, length);
+        if (saisieId) {
+            id = Integer.parseInt(cdata);
+            saisieId = false;
+        } else if (saisieEquipeLocale) {
+            equipeLocale = cdata;
+            saisieEquipeLocale = false;
+        } else if (saisieEquipeExterieure) {
+            equipeExterieure = cdata;
+            saisieEquipeExterieure = false;
+        } else if (saisieScoreEquipeLocale) {
+            scoreEquipeLocale = Integer.parseInt(cdata);
+            saisieScoreEquipeLocale = false;
+        }  else if (saisieEquipeExterieure) {
+            scoreEquipeExterieure = Integer.parseInt(cdata);
+            saisieEquipeExterieure = false;
+        } else if (saisieDate) {
+            date = cdata;
+            saisieDate = false;
+        }  else if (saisieHeure) {
+            heure = cdata;
+            saisieHeure = false;
+        }
 
-        if (titleR ) {//si nous sommes en train de lire la balise 'title'
-            titleR=false;
-            title = (cdata.trim()).replaceAll("\\s+", " ");
-        }
-        if (linkR) {//si nous sommes en train de lire la balise 'link'
-            linkR=false;
-            link = (cdata.trim()).replaceAll("\\s+", " ");
-        }
-
-        if (title!=null && link!=null)//si nous avons lu un lien et un titre dans le flux RSS
-        {
-            //on cumul au résultat le code HTML suivant
-            rssResult=rssResult+"<a href='"+link+"'>"+title+"</a><br>";
-            //on réinitilise les variables suivantes afin de préprarer la lecture de la suite
-            //du flux
-            title=null;
-            link=null;
-        }
     }
 
-    /*
-    Cette fonction sert à récupérer sous format HTML la lecture de tout le flux RSS.
-     */
-    public Match getRssResult()
+    /**
+    * Cette fonction sert à récupérer sous format HTML la lecture de tout le flux RSS.
+    */
+    public List<Match> getRssResult()
     {
-        return rssResult;
+        validerSaisieSiNecessaire();
+        return matchList;
     }
 }

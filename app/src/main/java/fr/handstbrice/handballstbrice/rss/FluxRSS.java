@@ -16,8 +16,10 @@ import java.net.URL;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fr.handstbrice.handballstbrice.model.Equipe;
 import fr.handstbrice.handballstbrice.model.Match;
 import fr.handstbrice.handballstbrice.model.Partenaire;
 
@@ -37,16 +39,16 @@ public class FluxRSS {
     public static AsyncTask<String,Void, List<Article>> scanArticles() {
     }
 
-    public static AsyncTask<String,Void, Match> scanNextMatch() {
+    public static AsyncTask<String,Void, List<Match>> scanNextMatch() {
     }
 
-    public static AsyncTask<String,Void, Match> scanLastMatch()
+    public static AsyncTask<String,Void, List<Match>> scanLastMatch()
     {
-        return new AsyncTask<String, Void, Match>()
+        return new AsyncTask<String, Void, List<Match>>()
         {
             //lorsqu'android est prêt, la tâche est executée ici
             @Override
-            protected Match doInBackground(String... urls) {
+            protected List<Match> doInBackground(String... urls) {
                 try {
                     //à partir de cette URL
                     URL rssUrl = new URL("http://dev-handstbrice.fr/api-stbrice/?action=get_last_match");
@@ -56,7 +58,7 @@ public class FluxRSS {
                     XMLReader xmlReader = saxParser.getXMLReader();
 
                     //grâce à notre lecteur de contenu de RSS
-                    RSSHandler rssHandler = new RSSHandler();
+                    MatchRSSHandler rssHandler = new MatchRSSHandler();
                     //on informe notre parser quelle classe il devra utiliser lors de la lecture
                     //de chaque élément XML
                     xmlReader.setContentHandler(rssHandler);
@@ -71,21 +73,11 @@ public class FluxRSS {
                     return rssHandler.getRssResult();
 
                 } catch (Exception e) {
-
                     e.printStackTrace();
-                    return e.toString();
+                    return new ArrayList<>();
                 }
             }
-            //lorsque la tâche est executée, cette fonction est appelée avec en paramètre le résultat
-            //renvoyé par la tâche
-            @Override
-            protected void onPostExecute(String feed) {
-                rssResult=feed;
-                //on place dans notre zone d'affiche du code HTML provenant
-                // du parcour de notre flux RSS. Le HTML lui même a été généré dans la classe
-                // RSSHandler
-                textViewRSS.setText(Html.fromHtml(feed));
-            }
+
         };
     }
 }
