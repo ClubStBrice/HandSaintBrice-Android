@@ -50,12 +50,7 @@ public class PartenaireRSSHandler extends DefaultHandler
     {
         if (saisieNouveauPartenaire)
         {
-            try {
-                partenairesList.add(new Partenaire(id, nom, url, urlImg, offre));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
+            partenairesList.add(new Partenaire(id, nom, url, urlImg, offre));
             saisieNouveauPartenaire=false;
         }
     }
