@@ -93,7 +93,6 @@ public class FluxRSS
                     xmlReader.parse(inputSource);
 
 
-
                     scanListJoueurs(rssHandler.getRssResult());
 
 
@@ -110,7 +109,6 @@ public class FluxRSS
 
     private static List<Joueur> scanListJoueurs(List<Equipe> equipesList)
     {
-
         try {
             //à partir de cette URL
             URL rssUrl = new URL("http://dev-handstbrice.fr/api-stbrice/?action=get_list_joueurs");
