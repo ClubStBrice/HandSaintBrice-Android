@@ -71,13 +71,20 @@ public class MatchCheckerService extends Service {
         timerTask = new TimerTask() {
             public void run() {
                 try {
-                    List<Match> matchs=FluxRSS.scanLastMatch().execute().get();
+                    List<Match> matchs=FluxRSS.scanLastMatchs().execute().get();
+                    List<Match> proMatchs =FluxRSS.scanNextMatchs().execute().get();
 
                     SharedPreferences bdd = getBaseContext().getSharedPreferences("BDD", MODE_PRIVATE);
+
                     long dateDernierMatchUTC=bdd.getLong("dateDernierMatcthUTC", 0);
                     long dateDernierMatchUTCNew=dateDernierMatchUTC;
+
+                    long dateProchainMatchUTC =bdd.getLong("dateProchainMatchUTC",0);
+                    long dateProchainMatchUTCnew=dateProchainMatchUTC;
+
                     Intent intent = new Intent(MatchCheckerService.this, AccueilActivite.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                     PendingIntent pendingIntent = PendingIntent.getActivity(MatchCheckerService.this, 0, intent, 0);
 
                     for (Match match : matchs)
@@ -104,8 +111,34 @@ public class MatchCheckerService extends Service {
 
                         }
                     }
+                    for (Match proMatch : proMatchs)
+                    {
+                        if (proMatch!=null && (dateProchainMatchUTC==0 || dateProchainMatchUTC<proMatch.getDateUTC()))
+                        {
+                            Date date=new Date(proMatch.getDateUTC());
+                            //notification
+                            NotificationCompat.Builder notification = new NotificationCompat.Builder(MatchCheckerService.this, getString(R.string.notification_channel_name))
+                                .setSmallIcon(R.mipmap.logo_club_round)
+                                .setContentTitle(getString(R.string.app_name))
+                                .setContentText(String.format(getString(R.string.msg_prochain_match), proMatch.getEquipeLocale(), proMatch.getEquipeExterieure(),
+                                    df.format(date),
+                                    hf.format(date)))
+                                .setContentIntent(pendingIntent)
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setAutoCancel(true);
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MatchCheckerService.this);
+
+// notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(notificationIDCounter++, notification.build());
+                            dateProchainMatchUTCnew=Math.max(dateProchainMatchUTCnew, proMatch.getDateUTC());
+
+                        }
+                    }
                     //maj date
-                    bdd.edit().putLong("dateDernierMatcthUTC", dateDernierMatchUTCNew).commit();
+                    bdd.edit()
+                        .putLong("dateDernierMatcthUTC", dateDernierMatchUTCNew)
+                        .putLong("dateProchainMatchUTC", dateProchainMatchUTCnew)
+                        .commit();
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
