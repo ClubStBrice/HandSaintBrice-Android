@@ -13,14 +13,14 @@ public class Match {
     private long dateUTC;
 
 
-    public Match(int id, String equipeLocale, String equipeExterieure, int scoreEquipeLocale, int scoreEquipeExterieure, String date) throws ParseException {
+    public Match(int id, String equipeLocale, String equipeExterieure, int scoreEquipeLocale, int scoreEquipeExterieure, String date, String heure) throws ParseException {
         this.id = id;
         this.equipeLocale = equipeLocale;
         this.equipeExterieure = equipeExterieure;
         this.scoreEquipeLocale = scoreEquipeLocale;
         this.scoreEquipeExterieure = scoreEquipeExterieure;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-        dateUTC=format.parse(date).getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateUTC=format.parse(date+" "+heure).getTime();
     }
 
     public int getId() {
