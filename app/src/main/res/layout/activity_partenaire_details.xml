@@ -42,7 +42,7 @@
         tools:layout_editor_absoluteY="306dp" />
 
     <Button
-        android:id="@+id/butonLienPartenairesSite"
+        android:id="@+id/boutonLienPartenairesSite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
