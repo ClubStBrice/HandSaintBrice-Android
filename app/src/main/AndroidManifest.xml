@@ -24,6 +24,7 @@
             android:exported="true" />
 
         <activity android:name=".DernierMatchActivite"></activity>
+        <activity android:name=".NouveauxMatchsActivite"></activity>
     </application>
 
 </manifest>
