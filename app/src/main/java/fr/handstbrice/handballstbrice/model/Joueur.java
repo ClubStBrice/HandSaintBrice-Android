@@ -5,13 +5,16 @@ public class Joueur {
     private int id;
     private String nom;
     private String prenom;
-    private int idEquipe;
+    private Equipe equipe;
 
-    public Joueur(int id, String nom, String prenom, int idEquipe){
+    public Joueur(int id, String nom, String prenom, Equipe equipe){
+        assert nom != null;
+        assert equipe != null;
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.idEquipe = idEquipe;
+        this.equipe = equipe;
+        equipe.addJoueur(this);
     }
 
     public int getId() {
@@ -26,23 +29,11 @@ public class Joueur {
         return prenom;
     }
 
-    public int getIdEquipe() {
-        return idEquipe;
+    public Equipe getEquipe() {
+        return equipe;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
 
-    public void setIdEquipe(int idEquipe) {
-        this.idEquipe = idEquipe;
-    }
 }
