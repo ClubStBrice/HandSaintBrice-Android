@@ -12,6 +12,10 @@
         <activity android:name=".PartenairesActivite"></activity>
         <activity android:name=".ActiviteDetails"></activity>
         <activity android:name=".AccueilActivite"></activity>
+        <service
+            android:name=".MatchCheckerService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
