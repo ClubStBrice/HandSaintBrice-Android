@@ -8,7 +8,7 @@ public class Partenaire implements Serializable{
 
     private int id;
     private String nom;
-    private String url;
+    private Uri url;
     private Uri urlImg;
     private String offre;
 
@@ -16,7 +16,7 @@ public class Partenaire implements Serializable{
     public Partenaire(int id, String nom, String url, String urlImg, String offre){
         this.id = id;
         this.nom = nom;
-        this.url = url;
+        this.url = Uri.parse(url);
         this.urlImg = Uri.parse(urlImg);
         this.offre = offre;
     }
@@ -29,7 +29,7 @@ public class Partenaire implements Serializable{
         return nom;
     }
 
-    public String getUrl() {
+    public Uri getUrl() {
         return url;
     }
 
