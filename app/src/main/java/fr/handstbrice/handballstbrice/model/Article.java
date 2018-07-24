@@ -1,22 +1,30 @@
 package fr.handstbrice.handballstbrice.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Article {
-
+public class Article
+{
     private int id;
-    private Date date;
+    private long date;
     private String titre;
     private String texte;
     private String imgUrl;
     private String url;
 
-    public Article (int id, Date date, String titre, String texte, String imgUrl, String url){
+    public Article (int id, String date, String titre, String texte, String imgUrl, String url){
         assert titre != null;
         assert texte != null;
+        assert date != null;
 
         this.id = id;
-        this.date = date;
+        try {
+            this.date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss ZZZZZ").parse(date).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            this.date=System.currentTimeMillis();
+        }
         this.titre = titre;
         this.texte = texte;
         this.imgUrl = imgUrl;
@@ -27,7 +35,7 @@ public class Article {
         return id;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
