@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.handstbrice.handballstbrice">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -16,6 +17,7 @@
         <activity android:name=".AccueilActivite">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,8 +27,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".DernierMatchActivite"></activity>
-        <activity android:name=".NouveauxMatchsActivite"></activity>
+        <activity android:name=".DernierMatchActivite" />
+        <activity android:name=".NouveauxMatchsActivite" />
+        <activity android:name=".ArticlesActivite"></activity>
     </application>
 
 </manifest>
