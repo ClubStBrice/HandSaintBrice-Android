@@ -14,8 +14,8 @@ import fr.handstbrice.handballstbrice.model.Joueur;
 
 public class JoueurRSSHandler extends DefaultHandler
 {
-    private int id; private String nom; private String prenom; private int idEquipe;
-    private boolean saisieId=false, saisieNom=false, saisiePrenom=false, saisieIdEquipe=false;
+    private int id; private String nom; private String prenom; private int idEquipe; private String urlJoueur;
+    private boolean saisieId=false, saisieNom=false, saisiePrenom=false, saisieIdEquipe=false, saisieUrlJoueur=false;
     private boolean saisieNouveauJoueur=false;
     private final List<Equipe> equipesList;
     private List<Joueur> joueursList=new ArrayList<>();
@@ -51,6 +51,9 @@ public class JoueurRSSHandler extends DefaultHandler
             case "id_equipe":
                 saisieIdEquipe=true;
                 break;
+            case "photo_joueur":
+                saisieUrlJoueur=true;
+                break;
             case "joueurs":
                 validerSaisieSiNecessaire();
                 saisieNouveauJoueur=true;
@@ -71,6 +74,7 @@ public class JoueurRSSHandler extends DefaultHandler
         saisieNom=false;
         saisiePrenom=false;
         saisieIdEquipe=false;
+        saisieUrlJoueur=false;
     }
 
     private void validerSaisieSiNecessaire()
@@ -81,7 +85,7 @@ public class JoueurRSSHandler extends DefaultHandler
 
             Equipe e = getEquipeById(idEquipe);
             if(e != null)
-                joueursList.add(new Joueur(id, nom, prenom, e));
+                joueursList.add(new Joueur(id, nom, prenom, e, urlJoueur));
 
             saisieNouveauJoueur=false;
         }
@@ -108,6 +112,9 @@ public class JoueurRSSHandler extends DefaultHandler
         } else if (saisieIdEquipe) {
             idEquipe = Integer.parseInt(cdata);
             saisieIdEquipe = false;
+        } else if (saisieUrlJoueur) {
+            urlJoueur = cdata;
+            saisieUrlJoueur = false;
         }
     }
 
