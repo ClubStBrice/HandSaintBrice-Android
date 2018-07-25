@@ -26,9 +26,9 @@ public class DernierMatchActivite extends AppCompatActivity {
         setContentView(R.layout.activity_dernier_match_activite);
 
         List<Match>l= null;
-        try {
-            equipes=FluxRSS.scanListEquipes(this).execute().get();
-            l = FluxRSS.scanLastMatchs(this).execute().get();
+
+            equipes=FluxRSS.scanListEquipes(this);
+            l = FluxRSS.scanLastMatchs(this);
             if (l.size() > 0) {
                 match = l.get(0);
 
@@ -61,11 +61,7 @@ public class DernierMatchActivite extends AppCompatActivity {
 
 
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
 
 
     }

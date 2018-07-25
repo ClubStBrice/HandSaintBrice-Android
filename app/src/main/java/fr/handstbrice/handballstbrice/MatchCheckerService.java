@@ -70,9 +70,9 @@ public class MatchCheckerService extends Service {
     public void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
-                try {
-                    List<Match> matchs=FluxRSS.scanLastMatchs(MatchCheckerService.this).execute().get();
-                    List<Match> proMatchs =FluxRSS.scanNextMatchs(MatchCheckerService.this).execute().get();
+
+                    List<Match> matchs=FluxRSS.scanLastMatchs(MatchCheckerService.this);
+                    List<Match> proMatchs =FluxRSS.scanNextMatchs(MatchCheckerService.this);
 
                     SharedPreferences bdd = getBaseContext().getSharedPreferences("BDD", MODE_PRIVATE);
 
@@ -140,11 +140,7 @@ public class MatchCheckerService extends Service {
                         .putLong("dateProchainMatchUTC", dateProchainMatchUTCnew)
                         .commit();
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+
             }
         };
     }

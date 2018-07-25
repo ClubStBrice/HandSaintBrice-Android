@@ -14,6 +14,7 @@ import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -27,6 +28,24 @@ import fr.handstbrice.handballstbrice.model.Partenaire;
 
 public class FluxRSS
 {
+    private static List<Partenaire> listPartenaires=null;
+    private static List<Equipe> listeEquipes=null;
+    private static List<Article> listeArticles=null;
+    private static List<Match> listeMatchs=null;
+    private static long lastUpdate=0, delayBetweenEachUpdate=25L*60L*1000L;
+
+    private static void resetIfNecessary()
+    {
+        if (lastUpdate+delayBetweenEachUpdate<System.currentTimeMillis())
+        {
+            listPartenaires=null;
+            listeEquipes=null;
+            listeArticles=null;
+            listeMatchs=null;
+            lastUpdate=System.currentTimeMillis();
+        }
+    }
+
     private static boolean authenticatorLoaded=false;
     private static URL getURL(String relativeURL, Context context) throws MalformedURLException {
         String base=context.getString(R.string.base_url);
@@ -40,8 +59,8 @@ public class FluxRSS
         return new URL(base+separator+relativeURL);
     }
 
-    private static InputStream getInputStream(URL url, Context context) throws IOException {
-
+    private static InputStream getInputStream(URL url, Context context) throws IOException
+    {
         final String user=context.getString(R.string.authenticatiion_user);
         final String pwd=context.getString(R.string.authenticatiion_password);
         if (user.length() > 0) {
@@ -55,89 +74,103 @@ public class FluxRSS
             }
         }
         return url.openStream();
-
     }
 
-
-    public static AsyncTask<String,Void, List<Partenaire>> scanListPartenaires(final Context context)
+    public static List<Partenaire> scanListPartenaires(final Context context)
     {
-        return new AsyncTask<String, Void, List<Partenaire>>()
-        {
-            //lorsqu'android est prêt, la tâche est executée ici
-            @Override
-            protected List<Partenaire> doInBackground(String... urls) {
-                try {
-                    //à partir de cette URL
-                    URL rssUrl = getURL("api-stbrice/?action=get_list_partenaires", context);
-                    //on construit un parseur (parcoureur) de contenu XML
-                    SAXParserFactory factory = SAXParserFactory.newInstance();
-                    SAXParser saxParser = factory.newSAXParser();
-                    XMLReader xmlReader = saxParser.getXMLReader();
+        resetIfNecessary();
 
-                    //grâce à notre lecteur de contenu de RSS
-                    PartenaireRSSHandler rssHandler = new PartenaireRSSHandler();
-                    //on informe notre parser quelle classe il devra utiliser lors de la lecture
-                    //de chaque élément XML
-                    xmlReader.setContentHandler(rssHandler);
-                    //on cré un flux de données à partir de l'URL définie plus haut
-                    InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
+        if (listPartenaires==null) {
+            try {
+                listPartenaires = new AsyncTask<String, Void, List<Partenaire>>() {
+                    //lorsqu'android est prêt, la tâche est executée ici
+                    @Override
+                    protected List<Partenaire> doInBackground(String... urls) {
+                        try {
+                            //à partir de cette URL
+                            URL rssUrl = getURL("api-stbrice/?action=get_list_partenaires", context);
+                            //on construit un parseur (parcoureur) de contenu XML
+                            SAXParserFactory factory = SAXParserFactory.newInstance();
+                            SAXParser saxParser = factory.newSAXParser();
+                            XMLReader xmlReader = saxParser.getXMLReader();
 
-                    //on demande à notre parser de parcourir tout le contenu XML renvoyé par
-                    //le flux de données inputSource
-                    xmlReader.parse(inputSource);
+                            //grâce à notre lecteur de contenu de RSS
+                            PartenaireRSSHandler rssHandler = new PartenaireRSSHandler();
+                            //on informe notre parser quelle classe il devra utiliser lors de la lecture
+                            //de chaque élément XML
+                            xmlReader.setContentHandler(rssHandler);
+                            //on cré un flux de données à partir de l'URL définie plus haut
+                            InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
 
-                    //on retourne le résultat
-                    return rssHandler.getRssResult();
+                            //on demande à notre parser de parcourir tout le contenu XML renvoyé par
+                            //le flux de données inputSource
+                            xmlReader.parse(inputSource);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new ArrayList<>();
-                }
+                            //on retourne le résultat
+                            return rssHandler.getRssResult();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return new ArrayList<>();
+                        }
+                    }
+                }.execute().get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
             }
-        };
+        }
+        return listPartenaires;
     }
 
-    public static AsyncTask<String,Void, List<Equipe>> scanListEquipes(final Context context)
+    public static List<Equipe> scanListEquipes(final Context context)
     {
-        return new AsyncTask<String, Void, List<Equipe>>()
-        {
-            //lorsqu'android est prêt, la tâche est executée ici
-            @Override
-            protected List<Equipe> doInBackground(String... urls) {
-                try {
-                    //à partir de cette URL
-                    URL rssUrl = getURL("api-stbrice/?action=get_list_equipes", context);
+        resetIfNecessary();
 
-                    //on construit un parseur (parcoureur) de contenu XML
-                    SAXParserFactory factory = SAXParserFactory.newInstance();
-                    SAXParser saxParser = factory.newSAXParser();
-                    XMLReader xmlReader = saxParser.getXMLReader();
+        if (listeEquipes==null) {
+            try {
+                listeEquipes =  new AsyncTask<String, Void, List<Equipe>>() {
+                    //lorsqu'android est prêt, la tâche est executée ici
+                    @Override
+                    protected List<Equipe> doInBackground(String... urls) {
+                        try {
+                            //à partir de cette URL
+                            URL rssUrl = getURL("api-stbrice/?action=get_list_equipes", context);
 
-                    //grâce à notre lecteur de contenu de RSS
-                    EquipeRSSHandler rssHandler = new EquipeRSSHandler();
-                    //on informe notre parser quelle classe il devra utiliser lors de la lecture
-                    //de chaque élément XML
-                    xmlReader.setContentHandler(rssHandler);
-                    //on cré un flux de données à partir de l'URL définie plus haut
-                    InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
+                            //on construit un parseur (parcoureur) de contenu XML
+                            SAXParserFactory factory = SAXParserFactory.newInstance();
+                            SAXParser saxParser = factory.newSAXParser();
+                            XMLReader xmlReader = saxParser.getXMLReader();
 
-                    //on demande à notre parser de parcourir tout le contenu XML renvoyé par
-                    //le flux de données inputSource
-                    xmlReader.parse(inputSource);
+                            //grâce à notre lecteur de contenu de RSS
+                            EquipeRSSHandler rssHandler = new EquipeRSSHandler();
+                            //on informe notre parser quelle classe il devra utiliser lors de la lecture
+                            //de chaque élément XML
+                            xmlReader.setContentHandler(rssHandler);
+                            //on cré un flux de données à partir de l'URL définie plus haut
+                            InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
 
+                            //on demande à notre parser de parcourir tout le contenu XML renvoyé par
+                            //le flux de données inputSource
+                            xmlReader.parse(inputSource);
 
-                    scanListJoueurs(rssHandler.getRssResult(), context);
+                            scanListJoueurs(rssHandler.getRssResult(), context);
 
+                            //on retourne le résultat
+                            return rssHandler.getRssResult();
 
-                    //on retourne le résultat
-                    return rssHandler.getRssResult();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new ArrayList<>();
-                }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return new ArrayList<>();
+                        }
+                    }
+                }.execute().get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
             }
-        };
+        }
+        return listeEquipes;
     }
 
     private static List<Joueur> scanListJoueurs(List<Equipe> equipesList, final Context context)
@@ -173,120 +206,147 @@ public class FluxRSS
     }
 
 
-    public static AsyncTask<String,Void, List<Article>> scanArticles(final Context context)
+    public static List<Article> scanArticles(final Context context)
     {
-        return new AsyncTask<String, Void, List<Article>>()
-        {
-            //lorsqu'android est prêt, la tâche est executée ici
-            @Override
-            protected List<Article> doInBackground(String... urls) {
-                try {
-                    //à partir de cette URL
-                    URL rssUrl = getURL("page-article/feed", context);
+        resetIfNecessary();
 
-                    //on construit un parseur (parcoureur) de contenu XML
-                    SAXParserFactory factory = SAXParserFactory.newInstance();
-                    SAXParser saxParser = factory.newSAXParser();
-                    XMLReader xmlReader = saxParser.getXMLReader();
+        if (listeArticles==null) {
+            try {
+                listeArticles =  new AsyncTask<String, Void, List<Article>>() {
+                    //lorsqu'android est prêt, la tâche est executée ici
+                    @Override
+                    protected List<Article> doInBackground(String... urls) {
+                        try {
+                            //à partir de cette URL
+                            URL rssUrl = getURL("page-article/feed", context);
 
-                    //grâce à notre lecteur de contenu de RSS
-                    ArticleRSSHandler rssHandler = new ArticleRSSHandler();
-                    //on informe notre parser quelle classe il devra utiliser lors de la lecture
-                    //de chaque élément XML
-                    xmlReader.setContentHandler(rssHandler);
-                    //on cré un flux de données à partir de l'URL définie plus haut
-                    InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
+                            //on construit un parseur (parcoureur) de contenu XML
+                            SAXParserFactory factory = SAXParserFactory.newInstance();
+                            SAXParser saxParser = factory.newSAXParser();
+                            XMLReader xmlReader = saxParser.getXMLReader();
 
-                    //on demande à notre parser de parcourir tout le contenu XML renvoyé par
-                    //le flux de données inputSource
-                    xmlReader.parse(inputSource);
+                            //grâce à notre lecteur de contenu de RSS
+                            ArticleRSSHandler rssHandler = new ArticleRSSHandler();
+                            //on informe notre parser quelle classe il devra utiliser lors de la lecture
+                            //de chaque élément XML
+                            xmlReader.setContentHandler(rssHandler);
+                            //on cré un flux de données à partir de l'URL définie plus haut
+                            InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
 
-                    //on retourne le résultat
-                    return rssHandler.getRssResult();
+                            //on demande à notre parser de parcourir tout le contenu XML renvoyé par
+                            //le flux de données inputSource
+                            xmlReader.parse(inputSource);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new ArrayList<>();
-                }
+                            //on retourne le résultat
+                            return rssHandler.getRssResult();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return new ArrayList<>();
+                        }
+                    }
+                }.execute().get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
             }
-        };
+        }
+        return listeArticles;
     }
 
-    public static AsyncTask<String,Void, List<Match>> scanNextMatchs(final Context context)
+    public static List<Match> scanNextMatchs(final Context context)
     {
-        return new AsyncTask<String, Void, List<Match>>()
-        {
-            //lorsqu'android est prêt, la tâche est executée ici
-            @Override
-            protected List<Match> doInBackground(String... urls) {
-                try {
-                    //à partir de cette URL
-                    URL rssUrl = getURL("api-stbrice/?action=get_next_match", context);
+        resetIfNecessary();
 
-                    //on construit un parseur (parcoureur) de contenu XML
-                    SAXParserFactory factory = SAXParserFactory.newInstance();
-                    SAXParser saxParser = factory.newSAXParser();
-                    XMLReader xmlReader = saxParser.getXMLReader();
+        if (listeMatchs==null) {
+            try {
+                listeMatchs =  new AsyncTask<String, Void, List<Match>>() {
+                    //lorsqu'android est prêt, la tâche est executée ici
+                    @Override
+                    protected List<Match> doInBackground(String... urls) {
+                        try {
+                            //à partir de cette URL
+                            URL rssUrl = getURL("api-stbrice/?action=get_next_match", context);
 
-                    //grâce à notre lecteur de contenu de RSS
-                    MatchRSSHandler rssHandler = new MatchRSSHandler();
-                    //on informe notre parser quelle classe il devra utiliser lors de la lecture
-                    //de chaque élément XML
-                    xmlReader.setContentHandler(rssHandler);
-                    //on cré un flux de données à partir de l'URL définie plus haut
-                    InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
+                            //on construit un parseur (parcoureur) de contenu XML
+                            SAXParserFactory factory = SAXParserFactory.newInstance();
+                            SAXParser saxParser = factory.newSAXParser();
+                            XMLReader xmlReader = saxParser.getXMLReader();
 
-                    //on demande à notre parser de parcourir tout le contenu XML renvoyé par
-                    //le flux de données inputSource
-                    xmlReader.parse(inputSource);
+                            //grâce à notre lecteur de contenu de RSS
+                            MatchRSSHandler rssHandler = new MatchRSSHandler();
+                            //on informe notre parser quelle classe il devra utiliser lors de la lecture
+                            //de chaque élément XML
+                            xmlReader.setContentHandler(rssHandler);
+                            //on cré un flux de données à partir de l'URL définie plus haut
+                            InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
 
-                    //on retourne le résultat
-                    return rssHandler.getRssResult();
+                            //on demande à notre parser de parcourir tout le contenu XML renvoyé par
+                            //le flux de données inputSource
+                            xmlReader.parse(inputSource);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new ArrayList<>();
-                }
+                            //on retourne le résultat
+                            return rssHandler.getRssResult();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return new ArrayList<>();
+                        }
+                    }
+                }.execute().get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
             }
-        };
+        }
+        return listeMatchs;
     }
 
-    public static AsyncTask<String,Void, List<Match>> scanLastMatchs(final Context context)
+    public static List<Match> scanLastMatchs(final Context context)
     {
-        return new AsyncTask<String, Void, List<Match>>()
-        {
-            //lorsqu'android est prêt, la tâche est executée ici
-            @Override
-            protected List<Match> doInBackground(String... urls) {
-                try {
-                    //à partir de cette URL
-                    URL rssUrl = getURL("api-stbrice/?action=get_last_match", context);
+        resetIfNecessary();
 
-                    //on construit un parseur (parcoureur) de contenu XML
-                    SAXParserFactory factory = SAXParserFactory.newInstance();
-                    SAXParser saxParser = factory.newSAXParser();
-                    XMLReader xmlReader = saxParser.getXMLReader();
+        if (listeMatchs==null) {
+            try {
+                listeMatchs =  new AsyncTask<String, Void, List<Match>>() {
+                    //lorsqu'android est prêt, la tâche est executée ici
+                    @Override
+                    protected List<Match> doInBackground(String... urls) {
+                        try {
+                            //à partir de cette URL
+                            URL rssUrl = getURL("api-stbrice/?action=get_last_match", context);
 
-                    //grâce à notre lecteur de contenu de RSS
-                    MatchRSSHandler rssHandler = new MatchRSSHandler();
-                    //on informe notre parser quelle classe il devra utiliser lors de la lecture
-                    //de chaque élément XML
-                    xmlReader.setContentHandler(rssHandler);
-                    //on cré un flux de données à partir de l'URL définie plus haut
-                    InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
+                            //on construit un parseur (parcoureur) de contenu XML
+                            SAXParserFactory factory = SAXParserFactory.newInstance();
+                            SAXParser saxParser = factory.newSAXParser();
+                            XMLReader xmlReader = saxParser.getXMLReader();
 
-                    //on demande à notre parser de parcourir tout le contenu XML renvoyé par
-                    //le flux de données inputSource
-                    xmlReader.parse(inputSource);
+                            //grâce à notre lecteur de contenu de RSS
+                            MatchRSSHandler rssHandler = new MatchRSSHandler();
+                            //on informe notre parser quelle classe il devra utiliser lors de la lecture
+                            //de chaque élément XML
+                            xmlReader.setContentHandler(rssHandler);
+                            //on cré un flux de données à partir de l'URL définie plus haut
+                            InputSource inputSource = new InputSource(getInputStream(rssUrl, context));
 
-                    //on retourne le résultat
-                    return rssHandler.getRssResult();
+                            //on demande à notre parser de parcourir tout le contenu XML renvoyé par
+                            //le flux de données inputSource
+                            xmlReader.parse(inputSource);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new ArrayList<>();
-                }
+                            //on retourne le résultat
+                            return rssHandler.getRssResult();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return new ArrayList<>();
+                        }
+                    }
+                }.execute().get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
             }
-        };
+        }
+        return listeMatchs;
     }
 }

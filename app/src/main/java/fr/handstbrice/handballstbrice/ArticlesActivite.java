@@ -27,8 +27,8 @@ public class ArticlesActivite extends AppCompatActivity {
     }
 
     private void update() {
-        try {
-            listArticles = FluxRSS.scanArticles(this).execute().get();
+
+            listArticles = FluxRSS.scanArticles(this);
 
             LinearLayout ll = findViewById(R.id.layoutArticles);
             for(final Article a : listArticles) {
@@ -56,11 +56,7 @@ public class ArticlesActivite extends AppCompatActivity {
                 image_article.setOnClickListener(listener);
                 titre_article.setOnClickListener(listener);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
 
     }
 }

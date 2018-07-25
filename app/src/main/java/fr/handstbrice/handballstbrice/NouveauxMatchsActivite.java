@@ -30,8 +30,8 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
 
     private void update()
     {
-        try {
-            matches= FluxRSS.scanNextMatchs(this).execute().get();
+
+            matches= FluxRSS.scanNextMatchs(this);
             LinearLayout ll=(LinearLayout)findViewById(R.id.contenuProchainsMatchs);
             for (Match m : matches)
             {
@@ -55,11 +55,7 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
                 nom_equipe_droit_prochain.setText(m.getEquipeExterieure());
 
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
 
     }
 }
