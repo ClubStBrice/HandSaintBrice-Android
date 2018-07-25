@@ -3,7 +3,7 @@
     <string name="msg_nouveau_match">Match entre %s et %s le %s à %s : %d-%d</string>
     <string name="msg_prochain_match">Prochain match entre %s et %s le %s à %s </string>
     <string name="date_match">le %s à %s</string>
-    <string name="date_format">dd-MM-YYYY</string>
+    <string name="date_format">dd-MM-yyyy</string>
     <string name="heure_format">HH:mm</string>
     <string name="notification_channel_name">Handball Saint Brice : matchs</string>
     <string name="notification_channel_description">Liste des matchs joués et à venir du club de Handball de Saint Brice</string>

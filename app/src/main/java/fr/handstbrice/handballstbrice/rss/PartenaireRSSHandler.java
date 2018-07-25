@@ -43,13 +43,30 @@ public class PartenaireRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouveauPartenaire=true;
                 break;
+                default:
+                    resetSaisie();
         }
     }
 
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        resetSaisie();
+    }
+
+    private void resetSaisie()
+    {
+        saisieId=false;
+        saisieNom=false;
+        saisieOffre=false;
+        saisieUrl=false;
+        saisieUrlImg=false;
+    }
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouveauPartenaire)
         {
+            resetSaisie();
+
             partenairesList.add(new Partenaire(id, nom, url, urlImg, offre));
             saisieNouveauPartenaire=false;
         }

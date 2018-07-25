@@ -48,15 +48,15 @@ public class AccueilActivite extends AppCompatActivity {
             if (m.getUrlImgExterieure()!=null)
                 tvEquipeDroite.setImageURI(m.getUrlImgExterieure());
 
-            TextView tvScoreEquipeDroite = (TextView) findViewById(R.id.equipe_droite);
-            tvScoreEquipeDroite.setText(m.getScoreEquipeExterieure());
+            TextView tvScoreEquipeDroite = (TextView) findViewById(R.id.score_droit);
+            tvScoreEquipeDroite.setText(""+m.getScoreEquipeExterieure());
 
             CircleImageView tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_gauche);
             if (m.getUrlImgLocale()!=null)
                 tvEquipeGauche.setImageURI(m.getUrlImgLocale());
 
-            TextView tvScoreEquipeGauche = (TextView) findViewById(R.id.equipe_gauche);
-            tvScoreEquipeGauche.setText(m.getScoreEquipeLocale());
+            TextView tvScoreEquipeGauche = (TextView) findViewById(R.id.score_gauche);
+            tvScoreEquipeGauche.setText(""+m.getScoreEquipeLocale());
 
             View.OnClickListener listener= new View.OnClickListener() {
                 @Override
