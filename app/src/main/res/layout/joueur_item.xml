@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+
+
     <ImageView
         android:id="@+id/imageJoueur"
 

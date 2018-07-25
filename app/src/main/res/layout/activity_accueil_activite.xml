@@ -166,6 +166,7 @@
             android:id="@+id/articles"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Articles" />
+            android:text="Articles"
+            android:visibility="invisible" />
     </LinearLayout>
 </LinearLayout>
