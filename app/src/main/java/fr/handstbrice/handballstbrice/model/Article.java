@@ -1,8 +1,9 @@
 package fr.handstbrice.handballstbrice.model;
 
+import android.net.Uri;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Article
 {
@@ -10,8 +11,8 @@ public class Article
     private long date;
     private String titre;
     private String texte;
-    private String imgUrl;
-    private String url;
+    private Uri imgUrl;
+    private Uri url;
 
     public Article (int id, String date, String titre, String texte, String imgUrl, String url){
         assert titre != null;
@@ -27,8 +28,8 @@ public class Article
         }
         this.titre = titre;
         this.texte = texte;
-        this.imgUrl = imgUrl;
-        this.url = url;
+        this.imgUrl = Uri.parse(imgUrl);
+        this.url = Uri.parse(url);
     }
 
     public int getId() {
@@ -47,11 +48,11 @@ public class Article
         return texte;
     }
 
-    public String getImgUrl() {
+    public Uri getImgUrl() {
         return imgUrl;
     }
 
-    public String getUrl() {
+    public Uri getUrl() {
         return url;
     }
 }
