@@ -48,6 +48,9 @@ public class ListeEquipesActivite extends AppCompatActivity {
 
 
                 ImageView imageJoueur = (ImageView)ligneJr.findViewById(R.id.imageJoueur);
+                if (j.getImgURL()!=null)
+                    new DownloadImageTask(imageJoueur)
+                        .execute(j.getImgURL().toString());
                 //new DownloadImageTask(imageJoueur).execute("https://www.cgl.fr/350-thickbox_default/camion-benne-cabine-simple.jpg");
 
                 TextView nom_joueur = (TextView)ligneJr.findViewById(R.id.nom_joueur);
