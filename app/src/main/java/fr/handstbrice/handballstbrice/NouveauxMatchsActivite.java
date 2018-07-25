@@ -39,7 +39,7 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
                 CircleImageView equipe_gauche_prochain=ligne.findViewById(R.id.equipe_gauche_prochain);
                 if (m.getUrlImgLocale()!=null)
                     new DownloadImageTask(equipe_gauche_prochain)
-                            .execute(m.getEquipeLocale().toString());
+                            .execute(m.getUrlImgLocale().toString());
 
 
                 TextView nom_equipe_gauche_prochain = (TextView)ligne.findViewById(R.id.nom_equipe_gauche_prochain);
@@ -54,7 +54,7 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
                 CircleImageView equipe_droite_prochain = (CircleImageView) ligne.findViewById(R.id.equipe_droite_prochain);
                 if (m.getUrlImgLocale()!=null)
                     new DownloadImageTask(equipe_droite_prochain)
-                            .execute(m.getEquipeExterieure().toString());
+                            .execute(m.getUrlImgExterieure().toString());
 
 
                 TextView nom_equipe_droit_prochain = (TextView)ligne.findViewById(R.id.nom_equipe_droit_prochain);

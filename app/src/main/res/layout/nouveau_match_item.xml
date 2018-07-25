@@ -58,6 +58,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/equipe_droite_prochain"
 
