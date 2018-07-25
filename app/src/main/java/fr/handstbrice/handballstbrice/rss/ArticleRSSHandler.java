@@ -45,17 +45,34 @@ public class ArticleRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouveauArticle=true;
                 break;
+            default:
+                resetSaisie();
         }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        resetSaisie();
+    }
+
+    private void resetSaisie()
+    {
+        saisieId=false;
+        saisieDate=false;
+        saisieTitre=false;
+        saisieTexte=false;
+        saisieImgUrl=false;
+        saisieUrl=false;
+        saisieNouveauArticle=false;
     }
 
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouveauArticle)
         {
+            resetSaisie();
 
             articlesList.add(new Article(id, date, titre, texte, imgUrl, url));
-
-
             saisieNouveauArticle=false;
         }
     }

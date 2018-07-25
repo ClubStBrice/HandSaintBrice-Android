@@ -43,8 +43,8 @@ public class PartenaireRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouveauPartenaire=true;
                 break;
-                default:
-                    resetSaisie();
+            default:
+                resetSaisie();
         }
     }
 
@@ -61,6 +61,7 @@ public class PartenaireRSSHandler extends DefaultHandler
         saisieUrl=false;
         saisieUrlImg=false;
     }
+
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouveauPartenaire)

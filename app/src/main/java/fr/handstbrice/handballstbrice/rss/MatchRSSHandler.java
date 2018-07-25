@@ -3,6 +3,7 @@ package fr.handstbrice.handballstbrice.rss;
 import android.util.Log;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -55,13 +56,36 @@ public class MatchRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouveauMatch=true;
                 break;
+            default:
+                resetSaisie();
         }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        resetSaisie();
+    }
+
+    private void resetSaisie()
+    {
+        saisieId=false;
+        saisieEquipeLocale=false;
+        saisieEquipeExterieure=false;
+        saisieScoreEquipeLocale=false;
+        saisieScoreEquipeExterieure=false;
+        saisieDate=false;
+        saisieHeure=false;
+        saisieUrlEquipeRec=false;
+        saisieUrlEquipeVis=false;
+        saisieNouveauMatch=false;
     }
 
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouveauMatch)
         {
+            resetSaisie();
+
             try {
                 matchsList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure, urlEquipeRec, urlEquipeVis));
             } catch (Exception e) {

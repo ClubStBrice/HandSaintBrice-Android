@@ -36,13 +36,30 @@ public class EquipeRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouvelleEquipe=true;
                 break;
+            default:
+                resetSaisie();
         }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        resetSaisie();
+    }
+
+    private void resetSaisie()
+    {
+        saisieId=false;
+        saisieNom=false;
+        saisieUrlImg=false;
+        saisieNouvelleEquipe=false;
     }
 
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouvelleEquipe)
         {
+            resetSaisie();
+
             equipesList.add(new Equipe(id, nom, srcImg));
             saisieNouvelleEquipe=false;
         }

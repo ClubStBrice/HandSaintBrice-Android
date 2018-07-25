@@ -55,13 +55,31 @@ public class JoueurRSSHandler extends DefaultHandler
                 validerSaisieSiNecessaire();
                 saisieNouveauJoueur=true;
                 break;
+            default:
+                resetSaisie();
         }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        resetSaisie();
+    }
+
+    private void resetSaisie()
+    {
+        saisieId=false;
+        saisieNom=false;
+        saisiePrenom=false;
+        saisieIdEquipe=false;
+        saisieNouveauJoueur=false;
     }
 
     private void validerSaisieSiNecessaire()
     {
         if (saisieNouveauJoueur)
         {
+            resetSaisie();
+
             Equipe e = getEquipeById(idEquipe);
             if(e != null)
                 joueursList.add(new Joueur(id, nom, prenom, e));
