@@ -30,8 +30,8 @@ public class PartenairesActivite extends AppCompatActivity {
 
     private void update() {
         scrollView.removeAllViews();
-        try {
-            List<Partenaire> l = FluxRSS.scanListPartenaires(this).execute().get();
+
+            List<Partenaire> l = FluxRSS.scanListPartenaires(this);
             View v=null;
             for (final Partenaire p : l ){
                 int imageViewId;
@@ -51,11 +51,7 @@ public class PartenairesActivite extends AppCompatActivity {
                     }
                 });
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
 
     }
 }

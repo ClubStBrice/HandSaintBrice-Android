@@ -42,7 +42,7 @@ public class ListeEquipesActivite extends AppCompatActivity {
 
 
                 ImageView imageJoueur = (ImageView)ligneJr.findViewById(R.id.imageJoueur);
-                imageJoueur.setImageURI(j.getEquipe());
+                //imageJoueur.setImageURI(j.get);
 
                 TextView nom_joueur = (TextView)ligneJr.findViewById(R.id.nom_joueur);
                 nom_joueur.setText(j.getNom());
