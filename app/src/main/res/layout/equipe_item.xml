@@ -6,10 +6,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titre_equipe_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_margin="20dip"
+        android:text="Titre equipe"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:id="@+id/layoutListeJoueurs"
