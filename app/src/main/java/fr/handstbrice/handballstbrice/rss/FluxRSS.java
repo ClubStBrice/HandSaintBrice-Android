@@ -2,12 +2,6 @@ package fr.handstbrice.handballstbrice.rss;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.util.Base64;
-import android.widget.TextView;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -16,14 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.handstbrice.handballstbrice.R;
 import fr.handstbrice.handballstbrice.model.Article;
@@ -34,6 +27,7 @@ import fr.handstbrice.handballstbrice.model.Partenaire;
 
 public class FluxRSS
 {
+    private static boolean authenticatorLoaded=false;
     private static URL getURL(String relativeURL, Context context) throws MalformedURLException {
         String base=context.getString(R.string.base_url);
         if (relativeURL.startsWith("/") && base.startsWith("/"))
@@ -48,19 +42,20 @@ public class FluxRSS
 
     private static InputStream getInputStream(URL url, Context context) throws IOException {
 
-        String name=context.getString(R.string.authenticatiion_name);
-        String pwd=context.getString(R.string.authenticatiion_password);
-        if (name.length() > 0) {
-            URLConnection uc = url.openConnection();
-            String userpass =name +":" + pwd;
-            String basicAuth = "Basic" + new String(Base64.encode(userpass.getBytes(), Base64.DEFAULT));
-            uc.setRequestProperty("Authorization", basicAuth);
-            return uc.getInputStream();
+        final String user=context.getString(R.string.authenticatiion_user);
+        final String pwd=context.getString(R.string.authenticatiion_password);
+        if (user.length() > 0) {
+            if (!authenticatorLoaded) {
+                Authenticator.setDefault(new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, pwd.toCharArray());
+                    }
+                });
+                authenticatorLoaded=true;
+            }
         }
-        else
-        {
-            return url.openStream();
-        }
+        return url.openStream();
+
     }
 
 

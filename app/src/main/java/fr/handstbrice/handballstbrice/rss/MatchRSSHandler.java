@@ -1,5 +1,7 @@
 package fr.handstbrice.handballstbrice.rss;
 
+import android.util.Log;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -58,7 +60,7 @@ public class MatchRSSHandler extends DefaultHandler
         {
             try {
                 matchsList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -91,6 +93,7 @@ public class MatchRSSHandler extends DefaultHandler
             scoreEquipeExterieure = Integer.parseInt(cdata);
             saisieEquipeExterieure = false;
         } else if (saisieDate) {
+            Log.i("datesaisie", cdata);
             date = cdata;
             saisieDate = false;
         }  else if (saisieHeure) {
