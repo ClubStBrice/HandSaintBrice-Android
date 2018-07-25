@@ -35,9 +35,13 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
             LinearLayout ll=(LinearLayout)findViewById(R.id.contenuProchainsMatchs);
             for (Match m : matches)
             {
-                View ligne=LayoutInflater.from(this).inflate(R.layout.nouveau_match_item,ll );
+                View ligne=LayoutInflater.from(this).inflate(R.layout.nouveau_match_item,ll, false );
                 CircleImageView equipe_gauche_prochain=ligne.findViewById(R.id.equipe_gauche_prochain);
                 equipe_gauche_prochain.setImageURI(m.getUrlImgLocale());
+                if (m.getUrlImgLocale()!=null)
+                    new DownloadImageTask(equipe_gauche_prochain)
+                            .execute(m.getEquipeLocale().toString());
+
 
                 TextView nom_equipe_gauche_prochain = (TextView)ligne.findViewById(R.id.nom_equipe_gauche_prochain);
                 nom_equipe_gauche_prochain.setText(m.getEquipeLocale());
@@ -49,11 +53,14 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
                 contenuProchainsMatchs.setText(String.format(getString(R.string.date_match),df.format(date), hf.format(date)));
 
                 CircleImageView equipe_droite_prochain = (CircleImageView) ligne.findViewById(R.id.equipe_droite_prochain);
-                equipe_droite_prochain.setImageURI(m.getUrlImgExterieure());
+                if (m.getUrlImgLocale()!=null)
+                    new DownloadImageTask(equipe_droite_prochain)
+                            .execute(m.getEquipeExterieure().toString());
+
 
                 TextView nom_equipe_droit_prochain = (TextView)ligne.findViewById(R.id.nom_equipe_droit_prochain);
                 nom_equipe_droit_prochain.setText(m.getEquipeExterieure());
-
+                ll.addView(ligne);
             }
 
 

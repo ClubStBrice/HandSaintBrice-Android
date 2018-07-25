@@ -77,7 +77,6 @@ public class MatchRSSHandler extends DefaultHandler
         saisieHeure=false;
         saisieUrlEquipeRec=false;
         saisieUrlEquipeVis=false;
-        saisieNouveauMatch=false;
     }
 
     private void validerSaisieSiNecessaire()

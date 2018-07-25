@@ -51,7 +51,6 @@ public class EquipeRSSHandler extends DefaultHandler
         saisieId=false;
         saisieNom=false;
         saisieUrlImg=false;
-        saisieNouvelleEquipe=false;
     }
 
     private void validerSaisieSiNecessaire()

@@ -71,7 +71,6 @@ public class JoueurRSSHandler extends DefaultHandler
         saisieNom=false;
         saisiePrenom=false;
         saisieIdEquipe=false;
-        saisieNouveauJoueur=false;
     }
 
     private void validerSaisieSiNecessaire()

@@ -33,7 +33,9 @@ public class DernierMatchActivite extends AppCompatActivity {
                 match = l.get(0);
 
                 CircleImageView imgG=(CircleImageView)findViewById(R.id.equipe_gauche_dernier);
-                imgG.setImageURI(getEquipeByName(match.getEquipeLocale()).getSrcImg());
+                if (match.getUrlImgLocale()!=null)
+                    new DownloadImageTask(imgG)
+                        .execute(match.getEquipeLocale().toString());
 
                 TextView nom_equipe_gauche_dernier = (TextView)findViewById(R.id.nom_equipe_gauche_dernier);
                 nom_equipe_gauche_dernier.setText(match.getEquipeLocale());
@@ -46,6 +48,10 @@ public class DernierMatchActivite extends AppCompatActivity {
 
                 CircleImageView imgD=(CircleImageView)findViewById(R.id.equipe_droite_dernier);
                 imgD.setImageURI(getEquipeByName(match.getEquipeLocale()).getSrcImg());
+
+                if (match.getUrlImgExterieure()!=null)
+                    new DownloadImageTask(imgD)
+                            .execute(match.getUrlImgExterieure().toString());
 
                 TextView nom_equipe_droit_dernier = (TextView)findViewById(R.id.nom_equipe_droit_dernier);
                 nom_equipe_droit_dernier.setText(match.getEquipeExterieure());

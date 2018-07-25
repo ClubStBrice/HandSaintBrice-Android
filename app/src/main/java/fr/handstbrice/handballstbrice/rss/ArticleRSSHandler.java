@@ -63,7 +63,6 @@ public class ArticleRSSHandler extends DefaultHandler
         saisieTexte=false;
         saisieImgUrl=false;
         saisieUrl=false;
-        saisieNouveauArticle=false;
     }
 
     private void validerSaisieSiNecessaire()
