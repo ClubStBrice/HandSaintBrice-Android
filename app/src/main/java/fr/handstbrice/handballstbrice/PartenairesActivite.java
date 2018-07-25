@@ -31,7 +31,7 @@ public class PartenairesActivite extends AppCompatActivity {
     private void update() {
         scrollView.removeAllViews();
         try {
-            List<Partenaire> l = FluxRSS.scanListPartenaires().execute().get();
+            List<Partenaire> l = FluxRSS.scanListPartenaires(this).execute().get();
             View v=null;
             for (final Partenaire p : l ){
                 int imageViewId;

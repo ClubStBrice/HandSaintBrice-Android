@@ -42,8 +42,8 @@ public class AccueilActivite extends AppCompatActivity {
     {
 
         try {
-            equipes=FluxRSS.scanListEquipes().execute().get();
-            List<Match> lastMatchs = FluxRSS.scanLastMatchs().execute().get();
+            equipes=FluxRSS.scanListEquipes(this).execute().get();
+            List<Match> lastMatchs = FluxRSS.scanLastMatchs(this).execute().get();
             if (lastMatchs.size()>0) {
                 Match m=lastMatchs.get(0);
 

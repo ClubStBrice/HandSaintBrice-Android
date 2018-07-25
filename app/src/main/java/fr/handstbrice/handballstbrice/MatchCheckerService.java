@@ -71,8 +71,8 @@ public class MatchCheckerService extends Service {
         timerTask = new TimerTask() {
             public void run() {
                 try {
-                    List<Match> matchs=FluxRSS.scanLastMatchs().execute().get();
-                    List<Match> proMatchs =FluxRSS.scanNextMatchs().execute().get();
+                    List<Match> matchs=FluxRSS.scanLastMatchs(MatchCheckerService.this).execute().get();
+                    List<Match> proMatchs =FluxRSS.scanNextMatchs(MatchCheckerService.this).execute().get();
 
                     SharedPreferences bdd = getBaseContext().getSharedPreferences("BDD", MODE_PRIVATE);
 

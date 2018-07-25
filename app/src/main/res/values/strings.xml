@@ -7,4 +7,6 @@
     <string name="heure_format">HH:mm</string>
     <string name="notification_channel_name">Handball Saint Brice : matchs</string>
     <string name="notification_channel_description">Liste des matchs joués et à venir du club de Handball de Saint Brice</string>
+    <string name="base_url">http://dev-handstbrice.fr</string>
+
 </resources>

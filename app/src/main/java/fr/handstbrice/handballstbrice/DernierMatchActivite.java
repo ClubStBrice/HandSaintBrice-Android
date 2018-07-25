@@ -27,8 +27,8 @@ public class DernierMatchActivite extends AppCompatActivity {
 
         List<Match>l= null;
         try {
-            equipes=FluxRSS.scanListEquipes().execute().get();
-            l = FluxRSS.scanLastMatchs().execute().get();
+            equipes=FluxRSS.scanListEquipes(this).execute().get();
+            l = FluxRSS.scanLastMatchs(this).execute().get();
             if (l.size() > 0) {
                 match = l.get(0);
 
