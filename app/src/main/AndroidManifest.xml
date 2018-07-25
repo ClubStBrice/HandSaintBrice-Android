@@ -29,7 +29,8 @@
 
         <activity android:name=".DernierMatchActivite" />
         <activity android:name=".NouveauxMatchsActivite" />
-        <activity android:name=".ArticlesActivite"></activity>
+        <activity android:name=".ArticlesActivite" />
+        <activity android:name=".ListeEquipesActivite"></activity>
     </application>
 
 </manifest>
