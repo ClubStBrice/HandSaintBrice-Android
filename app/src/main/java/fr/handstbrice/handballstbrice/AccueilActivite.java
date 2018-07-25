@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.net.URISyntaxException;
@@ -21,9 +23,6 @@ import fr.handstbrice.handballstbrice.rss.FluxRSS;
 public class AccueilActivite extends AppCompatActivity {
     Intent mServiceIntent;
     private MatchCheckerService matchCheckerService;
-    private CircleImageView tvEquipeGauche, tvEquipeDroite;
-    private TextView tvScoreEquipeGauche, tvScoreEquipeDroite;
-    private List<Equipe> equipes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,37 +39,87 @@ public class AccueilActivite extends AppCompatActivity {
 
     private void update()
     {
+        List<Match> lastMatchs = FluxRSS.scanLastMatchs(this);
+        if (lastMatchs.size()>0) {
+            Match m=lastMatchs.get(0);
 
-        try {
-            equipes=FluxRSS.scanListEquipes(this).execute().get();
-            List<Match> lastMatchs = FluxRSS.scanLastMatchs(this).execute().get();
-            if (lastMatchs.size()>0) {
-                Match m=lastMatchs.get(0);
 
-                Equipe ed=getEquipeByName(m.getEquipeExterieure());
-                tvEquipeDroite = (CircleImageView) findViewById(R.id.equipe_droite);
-                if (ed!=null && ed.getSrcImg()!=null)
-                    tvEquipeGauche.setImageURI(ed.getSrcImg());
+            CircleImageView tvEquipeDroite = (CircleImageView) findViewById(R.id.equipe_droite);
+            if (m.getUrlImgExterieure()!=null)
+                tvEquipeDroite.setImageURI(m.getUrlImgExterieure());
 
-                Equipe eg=getEquipeByName(m.getEquipeLocale());
-                tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_gauche);
-                if (eg!=null && eg.getSrcImg()!=null)
-                    tvEquipeGauche.setImageURI(eg.getSrcImg());
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            TextView tvScoreEquipeDroite = (TextView) findViewById(R.id.equipe_droite);
+            tvScoreEquipeDroite.setText(m.getScoreEquipeExterieure());
+
+            CircleImageView tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_gauche);
+            if (m.getUrlImgLocale()!=null)
+                tvEquipeGauche.setImageURI(m.getUrlImgLocale());
+
+            TextView tvScoreEquipeGauche = (TextView) findViewById(R.id.equipe_gauche);
+            tvScoreEquipeGauche.setText(m.getScoreEquipeLocale());
+
+            View.OnClickListener listener= new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i= new Intent(AccueilActivite.this, DernierMatchActivite.class);
+                    startActivity(i);
+                }
+            };
+            tvEquipeDroite.setOnClickListener(listener);
+            tvScoreEquipeDroite.setOnClickListener(listener);
+            tvEquipeGauche.setOnClickListener(listener);
+            tvScoreEquipeGauche.setOnClickListener(listener);
         }
-    }
 
-    private Equipe getEquipeByName(String name)
-    {
-        for (Equipe e : equipes)
-            if (e.getNom().equals(name))
-                return e;
-        return null;
+        List<Match> nextMatchs = FluxRSS.scanNextMatchs(this);
+        if (nextMatchs.size()>0) {
+            Match m=nextMatchs.get(0);
 
+            CircleImageView tvEquipeDroite = (CircleImageView) findViewById(R.id.equipe_prochain_droite);
+            if (m.getUrlImgExterieure()!=null)
+                tvEquipeDroite.setImageURI(m.getUrlImgExterieure());
+
+            CircleImageView tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_prochain_gauche);
+            if (m.getUrlImgLocale()!=null)
+                tvEquipeGauche.setImageURI(m.getUrlImgLocale());
+
+            View.OnClickListener listener= new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i= new Intent(AccueilActivite.this, NouveauxMatchsActivite.class);
+                    startActivity(i);
+                }
+            };
+            tvEquipeDroite.setOnClickListener(listener);
+            tvEquipeGauche.setOnClickListener(listener);
+        }
+
+        Button partenaires=(Button)findViewById(R.id.partenaires);
+        partenaires.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(AccueilActivite.this, PartenairesActivite.class);
+                startActivity(i);
+            }
+        });
+
+        Button equipes=(Button)findViewById(R.id.equipes);
+        equipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(AccueilActivite.this, ListeEquipesActivite.class);
+                startActivity(i);
+            }
+        });
+
+        Button articles=(Button)findViewById(R.id.articles);
+        articles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(AccueilActivite.this, ArticlesActivite.class);
+                startActivity(i);
+            }
+        });
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
