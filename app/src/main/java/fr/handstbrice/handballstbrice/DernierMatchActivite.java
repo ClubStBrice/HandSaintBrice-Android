@@ -35,20 +35,18 @@ public class DernierMatchActivite extends AppCompatActivity {
                 CircleImageView imgG=(CircleImageView)findViewById(R.id.equipe_gauche_dernier);
                 if (match.getUrlImgLocale()!=null)
                     new DownloadImageTask(imgG)
-                        .execute(match.getEquipeLocale().toString());
+                        .execute(match.getUrlImgLocale().toString());
 
                 TextView nom_equipe_gauche_dernier = (TextView)findViewById(R.id.nom_equipe_gauche_dernier);
                 nom_equipe_gauche_dernier.setText(match.getEquipeLocale());
 
-                TextView score_gauche_dernier = (TextView)findViewById(R.id.score_gauche_dernier);
-                score_gauche_dernier.setText(match.getScoreEquipeLocale());
+                TextView score_gauche_dernier = (TextView)findViewById(R.id.score_gauche_dernier_match);
+                score_gauche_dernier.setText(""+match.getScoreEquipeLocale());
 
-                TextView score_droit_dernier = (TextView)findViewById(R.id.score_droit_dernier);
-                score_droit_dernier.setText(match.getScoreEquipeExterieure());
+                TextView score_droit_dernier = (TextView)findViewById(R.id.score_droit_dernier_match);
+                score_droit_dernier.setText(""+match.getScoreEquipeExterieure());
 
                 CircleImageView imgD=(CircleImageView)findViewById(R.id.equipe_droite_dernier);
-                imgD.setImageURI(getEquipeByName(match.getEquipeLocale()).getSrcImg());
-
                 if (match.getUrlImgExterieure()!=null)
                     new DownloadImageTask(imgD)
                             .execute(match.getUrlImgExterieure().toString());

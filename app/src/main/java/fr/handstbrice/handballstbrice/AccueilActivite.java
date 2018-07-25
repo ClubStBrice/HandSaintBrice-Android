@@ -72,6 +72,8 @@ public class AccueilActivite extends AppCompatActivity {
             tvScoreEquipeDroite.setOnClickListener(listener);
             tvEquipeGauche.setOnClickListener(listener);
             tvScoreEquipeGauche.setOnClickListener(listener);
+            findViewById(R.id.titreDernier).setOnClickListener(listener);
+            findViewById(R.id.separation).setOnClickListener(listener);
         }
 
         List<Match> nextMatchs = FluxRSS.scanNextMatchs(this);
@@ -97,6 +99,7 @@ public class AccueilActivite extends AppCompatActivity {
             };
             tvEquipeDroite.setOnClickListener(listener);
             tvEquipeGauche.setOnClickListener(listener);
+            findViewById(R.id.separationTitre).setOnClickListener(listener);
         }
 
         Button partenaires=(Button)findViewById(R.id.partenaires);

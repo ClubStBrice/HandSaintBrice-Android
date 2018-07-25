@@ -37,7 +37,6 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
             {
                 View ligne=LayoutInflater.from(this).inflate(R.layout.nouveau_match_item,ll, false );
                 CircleImageView equipe_gauche_prochain=ligne.findViewById(R.id.equipe_gauche_prochain);
-                equipe_gauche_prochain.setImageURI(m.getUrlImgLocale());
                 if (m.getUrlImgLocale()!=null)
                     new DownloadImageTask(equipe_gauche_prochain)
                             .execute(m.getEquipeLocale().toString());
@@ -46,7 +45,7 @@ public class NouveauxMatchsActivite extends AppCompatActivity {
                 TextView nom_equipe_gauche_prochain = (TextView)ligne.findViewById(R.id.nom_equipe_gauche_prochain);
                 nom_equipe_gauche_prochain.setText(m.getEquipeLocale());
 
-                TextView contenuProchainsMatchs = (TextView)ligne.findViewById(R.id.contenuProchainsMatchs);
+                TextView contenuProchainsMatchs = (TextView)ligne.findViewById(R.id.titreDernier_prochain_match);
                 SimpleDateFormat df=new SimpleDateFormat(getString(R.string.date_format));
                 SimpleDateFormat hf=new SimpleDateFormat(getString(R.string.heure_format));
                 Date date=new Date(m.getDateUTC());
