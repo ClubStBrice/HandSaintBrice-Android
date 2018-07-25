@@ -22,6 +22,9 @@ public class PartenaireDetailsActivite extends AppCompatActivity {
         tvNom.setText(partenaire.getNom());
 
         ImageView logoPartenaire = (ImageView)findViewById(R.id.logoPartenaire);
+        if (partenaire.getUrlImg()!=null)
+            new DownloadImageTask(logoPartenaire)
+                    .execute(partenaire.getUrlImg().toString());
         logoPartenaire.setImageURI(partenaire.getUrlImg());
 
         TextView bonusPartenaire = (TextView)findViewById(R.id.bonusPartenaire);
@@ -36,5 +39,9 @@ public class PartenaireDetailsActivite extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        if (partenaire.getUrl()==null)
+            boutonLienPartenairesSite.setVisibility(Button.INVISIBLE);
+        else
+            boutonLienPartenairesSite.setVisibility(Button.VISIBLE);
     }
 }

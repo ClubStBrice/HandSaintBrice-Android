@@ -75,6 +75,8 @@ public class JoueurRSSHandler extends DefaultHandler
         saisiePrenom=false;
         saisieIdEquipe=false;
         saisieUrlJoueur=false;
+
+
     }
 
     private void validerSaisieSiNecessaire()
@@ -88,6 +90,11 @@ public class JoueurRSSHandler extends DefaultHandler
                 joueursList.add(new Joueur(id, nom, prenom, e, urlJoueur));
 
             saisieNouveauJoueur=false;
+            id=-1;
+            idEquipe=-1;
+            nom=null;
+            prenom=null;
+            urlJoueur=null;
         }
     }
 

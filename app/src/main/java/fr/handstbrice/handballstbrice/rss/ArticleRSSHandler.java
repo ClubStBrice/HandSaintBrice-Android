@@ -65,6 +65,7 @@ public class ArticleRSSHandler extends DefaultHandler
         saisieTexte=false;
         saisieImgUrl=false;
         saisieUrl=false;
+
     }
 
     private void validerSaisieSiNecessaire()
@@ -74,6 +75,12 @@ public class ArticleRSSHandler extends DefaultHandler
             resetSaisie();
             articlesList.add(new Article(id, date, titre, texte, imgUrl, url));
             saisieNouveauArticle=false;
+            id=-1;
+            date=null;
+            titre=null;
+            texte=null;
+            imgUrl=null;
+            url=null;
         }
     }
 

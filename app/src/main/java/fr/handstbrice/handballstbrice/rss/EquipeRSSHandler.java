@@ -51,6 +51,7 @@ public class EquipeRSSHandler extends DefaultHandler
         saisieId=false;
         saisieNom=false;
         saisieUrlImg=false;
+
     }
 
     private void validerSaisieSiNecessaire()
@@ -61,6 +62,9 @@ public class EquipeRSSHandler extends DefaultHandler
 
             equipesList.add(new Equipe(id, nom, srcImg));
             saisieNouvelleEquipe=false;
+            id=-1;
+            nom=null;
+            srcImg=null;
         }
     }
 

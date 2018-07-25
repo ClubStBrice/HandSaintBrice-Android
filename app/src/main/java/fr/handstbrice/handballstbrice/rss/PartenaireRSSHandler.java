@@ -60,6 +60,7 @@ public class PartenaireRSSHandler extends DefaultHandler
         saisieOffre=false;
         saisieUrl=false;
         saisieUrlImg=false;
+
     }
 
     private void validerSaisieSiNecessaire()
@@ -70,6 +71,11 @@ public class PartenaireRSSHandler extends DefaultHandler
 
             partenairesList.add(new Partenaire(id, nom, url, urlImg, offre));
             saisieNouveauPartenaire=false;
+            id=-1;
+            nom=null;
+            url=null;
+            urlImg=null;
+            offre=null;
         }
     }
 

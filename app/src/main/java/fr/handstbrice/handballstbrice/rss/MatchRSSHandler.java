@@ -77,6 +77,7 @@ public class MatchRSSHandler extends DefaultHandler
         saisieHeure=false;
         saisieUrlEquipeRec=false;
         saisieUrlEquipeVis=false;
+
     }
 
     private void validerSaisieSiNecessaire()
@@ -92,6 +93,15 @@ public class MatchRSSHandler extends DefaultHandler
             }
 
             saisieNouveauMatch=false;
+            id=-1;
+            equipeLocale=null;
+            equipeExterieure=null;
+            scoreEquipeLocale=0;
+            scoreEquipeExterieure=0;
+            date=null;
+            heure=null;
+            urlEquipeRec=null;
+            urlEquipeVis=null;
         }
     }
 
