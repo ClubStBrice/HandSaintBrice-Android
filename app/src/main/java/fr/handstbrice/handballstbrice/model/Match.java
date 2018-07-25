@@ -1,5 +1,7 @@
 package fr.handstbrice.handballstbrice.model;
 
+import android.net.Uri;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -11,9 +13,10 @@ public class Match {
     private int scoreEquipeLocale;
     private int scoreEquipeExterieure;
     private long dateUTC;
+    private Uri urlImgLocale, urlImgExterieure;
 
 
-    public Match(int id, String equipeLocale, String equipeExterieure, int scoreEquipeLocale, int scoreEquipeExterieure, String date, String heure) throws ParseException {
+    public Match(int id, String equipeLocale, String equipeExterieure, int scoreEquipeLocale, int scoreEquipeExterieure, String date, String heure, String urlImgLocale, String urlImgExterieure) throws ParseException {
         this.id = id;
         this.equipeLocale = equipeLocale;
         this.equipeExterieure = equipeExterieure;
@@ -21,6 +24,8 @@ public class Match {
         this.scoreEquipeExterieure = scoreEquipeExterieure;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateUTC=format.parse(date+" "+heure).getTime();
+        this.urlImgLocale=Uri.parse(urlImgLocale);
+        this.urlImgExterieure=Uri.parse(urlImgExterieure);
     }
 
     public int getId() {
@@ -45,5 +50,13 @@ public class Match {
 
     public long getDateUTC() {
         return dateUTC;
+    }
+
+    public Uri getUrlImgLocale() {
+        return urlImgLocale;
+    }
+
+    public Uri getUrlImgExterieure() {
+        return urlImgExterieure;
     }
 }

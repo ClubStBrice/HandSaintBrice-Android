@@ -3,10 +3,8 @@ package fr.handstbrice.handballstbrice.rss;
 import android.util.Log;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +12,8 @@ import fr.handstbrice.handballstbrice.model.Match;
 
 public class MatchRSSHandler extends DefaultHandler
 {
-    private int id; private String equipeLocale; private String equipeExterieure; private int scoreEquipeLocale; private int scoreEquipeExterieure; private String date; private String heure; private String urlEquipeVis; private String urlEquipeRec;
-    private boolean saisieId=false, saisieEquipeLocale=false, saisieEquipeExterieure=false, saisieScoreEquipeLocale=false, saisieScoreEquipeExterieure=false, saisieDate=false, saisieHeure=false;
+    private int id; private String equipeLocale; private String equipeExterieure; private int scoreEquipeLocale; private int scoreEquipeExterieure; private String date; private String heure; private String urlEquipeRec; private String urlEquipeVis;
+    private boolean saisieId=false, saisieEquipeLocale=false, saisieEquipeExterieure=false, saisieScoreEquipeLocale=false, saisieScoreEquipeExterieure=false, saisieDate=false, saisieHeure=false, saisieUrlEquipeRec=false, saisieUrlEquipeVis=false;
     private boolean saisieNouveauMatch=false;
     private List<Match> matchsList=new ArrayList<>();
 
@@ -23,7 +21,7 @@ public class MatchRSSHandler extends DefaultHandler
     * Cette fonction est exécuté au moment de la lecture de chaque balise XML
     */
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attrs) {
         switch (localName.toLowerCase())
         {
             case "id":
@@ -47,6 +45,12 @@ public class MatchRSSHandler extends DefaultHandler
             case "heure_match":
                 saisieHeure=true;
                 break;
+            case "urlrec":
+                saisieUrlEquipeRec=true;
+                break;
+            case "urlvis":
+                saisieUrlEquipeVis=true;
+                break;
             case "match":
                 validerSaisieSiNecessaire();
                 saisieNouveauMatch=true;
@@ -59,7 +63,7 @@ public class MatchRSSHandler extends DefaultHandler
         if (saisieNouveauMatch)
         {
             try {
-                matchsList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure));
+                matchsList.add(new Match(id, equipeLocale, equipeExterieure, scoreEquipeLocale, scoreEquipeExterieure, date, heure, urlEquipeRec, urlEquipeVis));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,7 +78,7 @@ public class MatchRSSHandler extends DefaultHandler
     */
     @Override
     public void characters(char[] ch, int start, int length)
-            throws SAXException {
+             {
         //on transforme le tableau de caractères 'ch' en une chaine de caractères de type String
         String cdata = new String(ch, start, length);
         if (saisieId) {
@@ -89,9 +93,9 @@ public class MatchRSSHandler extends DefaultHandler
         } else if (saisieScoreEquipeLocale) {
             scoreEquipeLocale = Integer.parseInt(cdata);
             saisieScoreEquipeLocale = false;
-        }  else if (saisieEquipeExterieure) {
+        }  else if (saisieScoreEquipeExterieure) {
             scoreEquipeExterieure = Integer.parseInt(cdata);
-            saisieEquipeExterieure = false;
+            saisieScoreEquipeExterieure = false;
         } else if (saisieDate) {
             Log.i("datesaisie", cdata);
             date = cdata;
@@ -99,6 +103,12 @@ public class MatchRSSHandler extends DefaultHandler
         }  else if (saisieHeure) {
             heure = cdata;
             saisieHeure = false;
+        } else if (saisieUrlEquipeRec) {
+            urlEquipeRec = cdata;
+            saisieUrlEquipeRec = false;
+        } else if (saisieUrlEquipeVis) {
+            urlEquipeVis = cdata;
+            saisieUrlEquipeVis = false;
         }
     }
 
