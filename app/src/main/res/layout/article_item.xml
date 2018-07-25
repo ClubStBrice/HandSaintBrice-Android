@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/titre_article"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dip"
+        android:text="Forza David !"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/image_article"
+            android:layout_width="64dp"
+            android:layout_height="98dp"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="20dip"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/logo_club_layer" />
+
+        <TextView
+            android:id="@+id/text_article"
+            android:layout_width="227dp"
+            android:layout_height="78dp"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="11dip"
+            android:layout_weight="1"
+            android:text="L’expression a pris naissance en Italie. Pas très loin de la Corse, là où est né David Bogus il y a 20 ans [...]" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/article"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom Article"
+        android:textSize="14sp" />
+
+</LinearLayout>
