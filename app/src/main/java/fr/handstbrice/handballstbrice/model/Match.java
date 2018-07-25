@@ -24,6 +24,10 @@ public class Match {
         this.scoreEquipeExterieure = scoreEquipeExterieure;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateUTC=format.parse(date+" "+heure).getTime();
+        if (!urlImgLocale.startsWith("http"))
+            urlImgLocale="http://"+urlImgLocale;
+        if (!urlImgExterieure.startsWith("http"))
+            urlImgExterieure="http://"+urlImgExterieure;
         this.urlImgLocale=Uri.parse(urlImgLocale);
         this.urlImgExterieure=Uri.parse(urlImgExterieure);
     }

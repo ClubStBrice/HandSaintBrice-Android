@@ -46,14 +46,17 @@ public class AccueilActivite extends AppCompatActivity {
 
             CircleImageView tvEquipeDroite = (CircleImageView) findViewById(R.id.equipe_droite);
             if (m.getUrlImgExterieure()!=null)
-                tvEquipeDroite.setImageURI(m.getUrlImgExterieure());
+                new DownloadImageTask(tvEquipeDroite)
+                        .execute(m.getUrlImgExterieure().toString());
+
 
             TextView tvScoreEquipeDroite = (TextView) findViewById(R.id.score_droit);
             tvScoreEquipeDroite.setText(""+m.getScoreEquipeExterieure());
 
             CircleImageView tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_gauche);
             if (m.getUrlImgLocale()!=null)
-                tvEquipeGauche.setImageURI(m.getUrlImgLocale());
+                new DownloadImageTask(tvEquipeGauche)
+                        .execute(m.getUrlImgLocale().toString());
 
             TextView tvScoreEquipeGauche = (TextView) findViewById(R.id.score_gauche);
             tvScoreEquipeGauche.setText(""+m.getScoreEquipeLocale());
@@ -77,11 +80,13 @@ public class AccueilActivite extends AppCompatActivity {
 
             CircleImageView tvEquipeDroite = (CircleImageView) findViewById(R.id.equipe_prochain_droite);
             if (m.getUrlImgExterieure()!=null)
-                tvEquipeDroite.setImageURI(m.getUrlImgExterieure());
+                new DownloadImageTask(tvEquipeDroite)
+                        .execute(m.getUrlImgExterieure().toString());
 
             CircleImageView tvEquipeGauche = (CircleImageView) findViewById(R.id.equipe_prochain_gauche);
             if (m.getUrlImgLocale()!=null)
-                tvEquipeGauche.setImageURI(m.getUrlImgLocale());
+                new DownloadImageTask(tvEquipeGauche)
+                        .execute(m.getUrlImgLocale().toString());
 
             View.OnClickListener listener= new View.OnClickListener() {
                 @Override

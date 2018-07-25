@@ -3,6 +3,7 @@ package fr.handstbrice.handballstbrice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,18 +30,19 @@ public class ArticlesActivite extends AppCompatActivity {
     private void update() {
 
             listArticles = FluxRSS.scanArticles(this);
-
             LinearLayout ll = findViewById(R.id.layoutArticles);
             for(final Article a : listArticles) {
-                View ligne= LayoutInflater.from(this).inflate(R.layout.article_item,ll );
+                Log.i("articles", a.getTitre());
+                View ligne= LayoutInflater.from(this).inflate(R.layout.article_item,ll,false );
 
-                TextView titre_article=(TextView)findViewById(R.id.titre_article);
+                TextView titre_article=(TextView)ligne.findViewById(R.id.titre_article);
                 titre_article.setText(a.getTitre());
 
-                ImageView image_article=(ImageView)findViewById(R.id.image_article);
-                image_article.setImageURI(a.getImgUrl());
+                ImageView image_article=(ImageView)ligne.findViewById(R.id.image_article);
+                new DownloadImageTask(image_article)
+                        .execute(a.getImgUrl().toString());
 
-                TextView text_article=(TextView)findViewById(R.id.text_article);
+                TextView text_article=(TextView)ligne.findViewById(R.id.text_article);
                 text_article.setText(a.getTexte());
 
                 View.OnClickListener listener = new View.OnClickListener() {
@@ -55,6 +57,7 @@ public class ArticlesActivite extends AppCompatActivity {
                 text_article.setOnClickListener(listener);
                 image_article.setOnClickListener(listener);
                 titre_article.setOnClickListener(listener);
+                ll.addView(ligne);
             }
 
 

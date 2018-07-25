@@ -48,7 +48,6 @@ public class PartenairesActivite extends AppCompatActivity {
                 ImageView iv = (ImageView) v.findViewById(imageViewId);
                 new DownloadImageTask(iv)
                         .execute(p.getUrlImg().toString());
-                Log.i("imageP", ""+p.getUrlImg());
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
